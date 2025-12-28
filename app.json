@@ -20,7 +20,9 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [],
+      "package": "com.sarkardevs.KuberOTT"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -30,6 +32,14 @@
       "react-native-video",
       "expo-asset",
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "c76a6801-9fba-4002-a674-37fb7a2fc005"
+      }
+    }
   }
 }
