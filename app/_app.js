@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { View } from "react-native";
 import * as Font from "expo-font";
+import { Ionicons, FontAwesome, MaterialIcons, Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function App({ children }) {
   const [ready, setReady] = useState(false);
@@ -15,6 +16,12 @@ export default function App({ children }) {
           "Poppins-Medium": require("../assets/fonts/Poppins-Medium.ttf"),
           "Poppins-SemiBold": require("../assets/fonts/Poppins-SemiBold.ttf"),
           "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
+
+          ...Ionicons.font,
+          ...FontAwesome.font,
+          ...MaterialIcons.font,
+          ...Feather.font,
+          ...MaterialCommunityIcons.font,
         });
 
         if (mounted) setReady(true);
