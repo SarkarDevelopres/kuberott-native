@@ -25,7 +25,7 @@ export default function Layout() {
     });
 
     if (!fontsLoaded) {
-        return null;
+        return <View style={{ flex: 1, backgroundColor: "#000" }} />;
     }
     if (!Text.defaultProps) Text.defaultProps = {};
     Text.defaultProps.style = {
@@ -33,10 +33,10 @@ export default function Layout() {
         fontFamily: "Poppins_400Regular",
     };
     return (
-         <View style={{ flex:1, backgroundColor: "#111" }}>
-                <SafeAreaView style={{ flex: 1 }}>
-                    <Slot />
-                </SafeAreaView>
-            </View>
+        <View style={{ flex: 1, backgroundColor: "#111" }}>
+            <SafeAreaView style={{ flex: 1 }}>
+                <Slot />
+            </SafeAreaView>
+        </View>
     );
 }

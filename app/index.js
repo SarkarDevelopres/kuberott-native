@@ -1,10 +1,11 @@
 
 import React, { useState, useEffect } from "react";
 import { View, Text, Button, Image, ActivityIndicator } from "react-native";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-export default function indexPage() {
+export default function IndexPage() {
+    const router = useRouter();
     useEffect(() => {
         console.log("All go0d !!");
 
@@ -12,7 +13,7 @@ export default function indexPage() {
 
             const signedIn = await AsyncStorage.getItem("isSignedUp");
 
-            if (signedIn) {
+            if (signedIn === "true") {
                 router.replace("/loginScreen");
             }
             else {
@@ -27,7 +28,8 @@ export default function indexPage() {
                 }
             }
         };
-        check();
+
+        setTimeout(check, 100);
     }, []);
 
     return (
