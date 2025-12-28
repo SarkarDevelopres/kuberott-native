@@ -30,8 +30,7 @@ export default function IndexPage() {
                 }
             }
         };
-
-        setTimeout(check, 100);
+        check();
     }, []);
 
     return (
