@@ -9,7 +9,7 @@ const CustomNav = ({ page }) => {
   const router = useRouter();
   return (
     <View style={{ position: "absolute", bottom: 10, zIndex: 10, borderRadius: 40, width: "35%", alignSelf: "center", alignItems: "center", elevation: 5, overflow: "hidden", backgroundColor: "rgba(0,0,0,0)" }}>
-      <BlurView intensity={50} tint='dark' style={StyleSheet.absoluteFill} />
+      {/* <BlurView intensity={50} tint='dark' style={StyleSheet.absoluteFill} /> */}
       <View style={{ flexDirection: "row", justifyContent: "space-between", flex: 1, backgroundColor: "rgba(229, 9, 20, 0.77)", paddingHorizontal: 50, paddingVertical: 15, width: "100%", borderRadius: 40, alignItems: "center" }}>
         <FontAwesome
           name="home"
