@@ -289,13 +289,30 @@ const genres = [
         id: 2, title: "ACTION", screen: "actionScreen"
     },
     {
-        id: 3, title: "THRILLER", screen: "romanceScreen"
+        id: 3, title: "DRAMA", screen: "dramaScreen"
     },
     {
         id: 4, title: "COMEDY", screen: "comedyScreen"
     },
     {
-        id: 5, title: "HORROR", screen: "romanceScreen"
+        id: 5, title: "HORROR", screen: "horrorScreen"
+    },
+];
+const langs = [
+    {
+        id: 1, title: "Hindi", screen: "hindiScreen"
+    },
+    {
+        id: 2, title: "English", screen: "englishScreen"
+    },
+    {
+        id: 3, title: "Bengali", screen: "bengaliScreen"
+    },
+    {
+        id: 4, title: "Telegu", screen: "teleguScreen"
+    },
+    {
+        id: 5, title: "Tamil", screen: "tamilScreen"
     },
 ];
 
@@ -417,6 +434,7 @@ const OttScreen = () => {
                         </TouchableOpacity>
                     )}
                 />
+
                 <Text style={styles.sectionTitle}>Best Movies</Text>
                 {bestMovies?.length > 0 && (
                     <FlatList
@@ -437,6 +455,22 @@ const OttScreen = () => {
                     />
                 )}
 
+                <Text style={styles.sectionTitle}>Languages</Text>
+                <FlatList
+                    data={langs}
+                    style={{ width: "100%" }}
+                    contentContainerStyle={{ flexDirection: "row", justifyContent: "space-between" }}
+                    horizontal
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity style={styles.genreButton} onPress={() => {
+                            console.log(item.screen);
+                            router.push(`/${item.screen}`);
+                        }}>
+                            <Text style={styles.genreText}>{item.title}</Text>
+                        </TouchableOpacity>
+                    )}
+                />
 
                 {/* Series Section */}
                 {/* <Text style={styles.sectionTitle}>Top Series</Text>
@@ -467,19 +501,84 @@ const OttScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: { backgroundColor: "#010023ff" },
-    header: { padding: 20, flexDirection: "row", justifyContent: "space-between" },
-    hero: { position: "relative", height: 500 },
-    heroImage: { width: "100%", height: "100%" },
-    heroText: { position: "absolute", bottom: 20, left: 20, fontFamily: "Poppins-Regular" },
-    movieTitle: { fontSize: 16, color: "#fff", fontFamily: "Poppins-Bold" },
-    movieDesc: { fontSize: 14, color: "#bbb", marginTop: 5, marginBottom: 10, fontFamily: "Poppins-Regular", width: 400 },
-    watchButton: { justifyContent: "center", alignItems: "center", backgroundColor: "#e50914", padding: 10, borderRadius: 10, width: 400 },
-    watchText: { color: "#fff", fontFamily: "Poppins-Bold" },
-    sectionTitle: { color: "#fff", fontSize: 18, fontFamily: "Poppins-Bold", marginTop: 20, marginLeft: 10, width: "100%" },
-    moviePoster: { width: 120, height: 180, borderRadius: 10, margin: 10 },
-    genreButton: { backgroundColor: "#e50914", padding: 5, borderRadius: 15, margin: 5, marginHorizontal: 15, height: 70, width: 220, justifyContent: "center", alignItems: "center" },
-    genreText: { color: "#fff", fontFamily: "Poppins-Regular", letterSpacing: -1, fontSize: 20 },
+    container: {
+        backgroundColor: "#010023ff"
+    },
+    header: {
+        padding: 20,
+        flexDirection: "row",
+        justifyContent: "space-between"
+    },
+    hero: {
+        position: "relative",
+        height: 500
+    },
+    heroImage: {
+        width: "100%",
+        height: "100%"
+    },
+    heroText: {
+        position: "absolute",
+        bottom: 20, left: 20,
+        fontFamily: "Poppins-Regular"
+    },
+    movieTitle: {
+        fontSize: 16,
+        color: "#fff",
+        fontFamily: "Poppins-Bold"
+    },
+    movieDesc: {
+        fontSize: 14,
+        color: "#bbb",
+        marginTop: 5,
+        marginBottom: 10,
+        fontFamily: "Poppins-Regular",
+        width: 400
+    },
+    watchButton: {
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#e50914",
+        padding: 10,
+        borderRadius: 10,
+        width: 400
+    },
+    watchText: {
+        color: "#fff",
+        fontFamily: "Poppins-Bold"
+    },
+    sectionTitle: {
+        color: "#fff",
+        fontSize: 18,
+        fontFamily: "Poppins-Bold",
+        marginTop: 20,
+        marginLeft: 10,
+        width: "100%"
+    },
+    moviePoster: {
+        width: 120,
+        height: 180,
+        borderRadius: 10,
+        margin: 10
+    },
+    genreButton: {
+        backgroundColor: "#e50914",
+        padding: 5,
+        borderRadius: 15,
+        margin: 5,
+        marginHorizontal: 15,
+        height: 70,
+        width: 220,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    genreText: {
+        color: "#fff",
+        fontFamily: "Poppins-Regular",
+        letterSpacing: -1,
+        fontSize: 20
+
+    },
     searchIcon: {
         position: "absolute",
         top: 20, // Adjust top spacing

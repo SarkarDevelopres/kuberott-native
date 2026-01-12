@@ -52,7 +52,10 @@ const RomanticMoviesScreen = () => {
         <SafeAreaView style={styles.container}>
             {/* Back Button */}
             <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-                <Ionicons name="arrow-back" size={24} color="#fff" />
+                <Image
+                    style={{ width: 30, height: 30 }}
+                    source={require("../../assets/back-icon.png")}
+                />
             </TouchableOpacity>
 
             <Text style={styles.title}>Romantic Movies</Text>

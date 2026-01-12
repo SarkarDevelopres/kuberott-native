@@ -8,14 +8,14 @@ import BASE_URL from "../../config";
 
 const numColumns = 5;
 
-const RomanticMoviesScreen = () => {
+const DramaMovieScreen = () => {
     const router = useRouter();
     const [comedyMovies, setComedyMovies] = useState([]);
 
     const fetchComedyMovies = async () => {
         try {
 
-            let req = await fetch(`${BASE_URL}/api/movie/getMovieListByGenre?genre=comedy`);
+            let req = await fetch(`${BASE_URL}/api/movie/getMovieListByGenre?genre=drama`);
             let res = await req.json();
 
             if (res.ok) {
@@ -58,7 +58,7 @@ const RomanticMoviesScreen = () => {
                 />
             </TouchableOpacity>
 
-            <Text style={styles.title}>Comedy Movies</Text>
+            <Text style={styles.title}>Drama Movies</Text>
             <FlatList
                 data={comedyMovies}
                 keyExtractor={(item) => item.id}
@@ -142,4 +142,4 @@ const styles = StyleSheet.create({
         fontFamily: "Poppins-Regular",
     },
 });
-export default RomanticMoviesScreen;
+export default DramaMovieScreen;

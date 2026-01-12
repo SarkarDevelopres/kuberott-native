@@ -9,14 +9,14 @@ import BASE_URL from "../../config";
 
 const numColumns = 5;
 
-const ActionMoviesScreen = () => {
+const TeleguMovieScreen = () => {
   const router = useRouter();
   const [actionMovies, setActionMovies] = useState([]);
 
   const fetchActionMovies = async () => {
     try {
 
-      let req = await fetch(`${BASE_URL}/api/movie/getMovieListByGenre?genre=action`);
+      let req = await fetch(`${BASE_URL}/api/movie/getMovieListByLanguage?language=Telegu`);
       let res = await req.json();
 
       if (res.ok) {
@@ -58,7 +58,7 @@ const ActionMoviesScreen = () => {
         />
       </TouchableOpacity>
 
-      <Text style={styles.title}>Action Movies</Text>
+      <Text style={styles.title}>Telegu Movies</Text>
       <FlatList
         data={actionMovies}
         keyExtractor={(item) => item.id}
@@ -140,4 +140,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ActionMoviesScreen;
+export default TeleguMovieScreen;

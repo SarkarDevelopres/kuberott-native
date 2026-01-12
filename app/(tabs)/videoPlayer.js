@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, BackHandler, StyleSheet, TouchableOpacity, Text, Dimensions, Animated, Alert } from 'react-native';
+import { View, BackHandler, StyleSheet, TouchableOpacity, Text, Dimensions, Animated, Alert, Image } from 'react-native';
 import { Video } from 'expo-av';
 import { MaterialIcons, Feather } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
@@ -114,6 +114,10 @@ const ModernVideoPlayer = () => {
     }
   }
 
+  function getRandomTwoOrThree() {
+    return Math.random() < 0.5 ? 2 : 3;
+  }
+
   useEffect(() => {
     const backAction = () => {
       // Custom behavior
@@ -197,35 +201,63 @@ const ModernVideoPlayer = () => {
     setDuration(status.durationMillis);
   };
 
+  const [videoNo] = useState(() => getRandomTwoOrThree());
+
   return (
     <View style={styles.container}>
-      {showAd && <View style={{
-        flex: 1,
-        position: 'absolute',
-        zIndex: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(20,20,20,0.4)"
-      }}>
-        <BlurView intensity={50} tint='dark' style={StyleSheet.absoluteFill} />
-        <View style={{ width: "60%", height: 300, backgroundColor: "rgba(100,100,100,1)", position: 'relative' }}>
-          <TouchableOpacity onPress={() => setShowAd(false)} style={{ position: 'absolute', top: 5, right: 10 }}>
-            <Text style={{ color: "white" }}>X</Text>
-          </TouchableOpacity>
-          <Video
-            source={require("../../assets/sample-ad-1.mp4")}
-            resizeMode="contain"
-            isLooping
-            volume={volume}
-            useNativeControls={true}
-            style={{ width:"80%", heigth: 200 }}
+      {showAd && (
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 10,
+            backgroundColor: "rgba(20,20,20,0.4)",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <View
+            style={{
+              width: "50%",
+              height: 350,
+              position: "relative",
+              overflow: "hidden",
+              backgroundColor: "black",
+            }}
           >
+            <TouchableOpacity
+              onPress={() => setShowAd(false)}
+              style={{ position: "absolute", top: 8, right: 10, zIndex: 20 }}
+            >
+              <Text style={{ color: "white" }}>X</Text>
+            </TouchableOpacity>
 
-          </Video>
+            <Video
+              source={
+                videoNo === 2
+                  ? require('../../assets/sample-ad-2.mp4')
+                  : require('../../assets/sample-ad-3.mp4')
+              }
+              shouldPlay
+              isLooping={false}
+              isMuted
+              resizeMode={Video.RESIZE_MODE_CONTAIN}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+              }}
+            />
+          </View>
+
         </View>
-      </View>}
+      )}
+
       <Video
         ref={videoRef}
         source={{ uri: videoUrl }} // Remote video URL
@@ -244,11 +276,21 @@ const ModernVideoPlayer = () => {
       )} */}
       <Animated.View style={[styles.controls, { opacity: controlsOpacity }]}>
         <TouchableOpacity onPress={togglePlayPause} style={styles.controlButton}>
-          <MaterialIcons
-            name={isPlaying ? 'pause' : 'play-arrow'}
-            size={40}
-            color="#fff"
-          />
+          {
+            isPlaying ? <Image
+              style={{
+                width: 40,
+                height: 40
+              }}
+              source={require("../../assets/pause-icon.png")}
+            /> : <Image
+              style={{
+                width: 40,
+                height: 40
+              }}
+              source={require("../../assets/play-icon.webp")}
+            />
+          }
         </TouchableOpacity>
         <Slider
           style={styles.slider}
@@ -281,14 +323,16 @@ const ModernVideoPlayer = () => {
           />
         </TouchableOpacity>
       </Animated.View>
-      <TouchableOpacity style={styles.fullscreenButton} onPress={toggleControls}>
-        <Feather
-          name={isControlsVisible ? 'eye-off' : 'eye'}
-          size={30}
-          color="#fff"
-        />
+      <TouchableOpacity style={styles.fullscreenButton} onPress={(toggleControls)}>
+        {isControlsVisible ? <Image
+          style={{ width: 45, height: 25 }}
+          source={require("../../assets/hide-eye-icon.png")}
+        /> : <Image
+          style={{ width: 45, height: 25, opacity: 0.3 }}
+          source={require("../../assets/show-eye-icon.png")}
+        />}
       </TouchableOpacity>
-    </View>
+    </View >
   );
 };
 

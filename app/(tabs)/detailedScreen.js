@@ -99,7 +99,10 @@ const DetailScreen = () => {
           />
 
           <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-            <Ionicons name="arrow-back" size={28} color="white" />
+            <Image
+              style={{ width: 30, height: 30 }}
+              source={require("../../assets/back-icon.png")}
+            />
           </TouchableOpacity>
         </ImageBackground>
 
