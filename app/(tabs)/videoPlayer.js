@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useLocalSearchParams, useRouter } from "expo-router";
 import BASE_URL from '../../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BlurView } from "expo-blur";
 
 const ModernVideoPlayer = () => {
   const router = useRouter();
@@ -19,52 +20,53 @@ const ModernVideoPlayer = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [showSubtitles, setShowSubtitles] = useState(false);
+  const [showAd, setShowAd] = useState(true);
   const controlsOpacity = useRef(new Animated.Value(1)).current;
 
 
-  const subtitles = [
-    { start: 2290, end: 4839, text: '[Music]' },
-    { start: 4839, end: 6680, text: 'My name is Jordan Belfort. The year I' },
-    { start: 6680, end: 10160, text: 'turned 26, I made $49 million, which' },
-    { start: 10160, end: 11559, text: 'really pissed me off because it was' },
-    { start: 11559, end: 14240, text: 'three shy of a million a week.' },
-    { start: 14240, end: 18080, text: 'I\'m making a name for' },
-    { start: 19240, end: 22160, text: 'ourselves. Nobody knows if a stock is' },
-    { start: 22160, end: 24160, text: 'going to go up, down, sideways, or in' },
-    { start: 24160, end: 27080, text: 'circles. You know what fugazi is? Fugazi' },
-    { start: 27080, end: 30160, text: 'It\'s a fake. Hey, fugazi, fugazi, it\'s a' },
-    { start: 30160, end: 33320, text: 'it\'s a woozy, it\'s a fairy' },
-    { start: 33320, end: 36719, text: 'dust. Was all this legal? Absolutely not.' },
-    { start: 36719, end: 38079, text: 'We were making more money than we knew' },
-    { start: 38079, end: 39879, text: 'what to do with. Don\'t work for you' },
-    { start: 39879, end: 41600, text: 'man. Yeah, my money taped to your boobs.' },
-    { start: 41600, end: 44200, text: 'Technically, you did work for me. What\'s' },
-    { start: 44200, end: 45239, text: 'wrong?' },
-    { start: 45239, end: 48559, text: 'Daddy, you bring home... Oh my' },
-    { start: 48559, end: 51800, text: 'God. FBI. Any kind of booze you might want?' },
-    { start: 51800, end: 55719, text: 'No, the bureau forbids us from drinking.' },
-    { start: 55719, end: 58719, text: 'Duh.' },
-    { start: 58920, end: 62680, text: 'Me, I\'m doing 500, I\'m out of control, but' },
-    { start: 62680, end: 64959, text: 'there\'s nowhere to go, and there\'s no way' },
-    { start: 64959, end: 67640, text: 'to slow. If I knew what I knew in the P, I' },
-    { start: 67640, end: 70400, text: 'would have...' },
-    { start: 70400, end: 72640, text: 'How does this actually work? There\'s a' },
-    { start: 72640, end: 74360, text: 'big money sign. They get launched at the' },
-    { start: 74360, end: 76320, text: 'time they stick. This is their gift, okay?' },
-    { start: 76320, end: 78520, text: 'They\'re built to be thrown like a lawn' },
-    { start: 78520, end: 80439, text: 'dart.' },
-    { start: 80439, end: 84000, text: 'Stop. Safety first. Safety is, safety is' },
-    { start: 84000, end: 85759, text: 'first. We don\'t want to get a bad' },
-    { start: 85759, end: 88600, text: 'reputation. And I think I\'m possessed.' },
-    { start: 88600, end: 91200, text: 'I keep it like the' },
-    { start: 91200, end: 94360, text: 'Romans. Where the CH, baby? We live in the' },
-    { start: 94360, end: 99240, text: 'moment. Been a...' },
-    { start: 101640, end: 104079, text: 'Know...' },
-    { start: 104079, end: 105580, text: 'Mmm.' },
-    { start: 105580, end: 108670, text: '[Music]' },
-    { start: 108920, end: 114040, text: 'Mhm. Come on.' },
-    { start: 114640, end: 119279, text: '[Music]' }
-  ];
+  // const subtitles = [
+  //   { start: 2290, end: 4839, text: '[Music]' },
+  //   { start: 4839, end: 6680, text: 'My name is Jordan Belfort. The year I' },
+  //   { start: 6680, end: 10160, text: 'turned 26, I made $49 million, which' },
+  //   { start: 10160, end: 11559, text: 'really pissed me off because it was' },
+  //   { start: 11559, end: 14240, text: 'three shy of a million a week.' },
+  //   { start: 14240, end: 18080, text: 'I\'m making a name for' },
+  //   { start: 19240, end: 22160, text: 'ourselves. Nobody knows if a stock is' },
+  //   { start: 22160, end: 24160, text: 'going to go up, down, sideways, or in' },
+  //   { start: 24160, end: 27080, text: 'circles. You know what fugazi is? Fugazi' },
+  //   { start: 27080, end: 30160, text: 'It\'s a fake. Hey, fugazi, fugazi, it\'s a' },
+  //   { start: 30160, end: 33320, text: 'it\'s a woozy, it\'s a fairy' },
+  //   { start: 33320, end: 36719, text: 'dust. Was all this legal? Absolutely not.' },
+  //   { start: 36719, end: 38079, text: 'We were making more money than we knew' },
+  //   { start: 38079, end: 39879, text: 'what to do with. Don\'t work for you' },
+  //   { start: 39879, end: 41600, text: 'man. Yeah, my money taped to your boobs.' },
+  //   { start: 41600, end: 44200, text: 'Technically, you did work for me. What\'s' },
+  //   { start: 44200, end: 45239, text: 'wrong?' },
+  //   { start: 45239, end: 48559, text: 'Daddy, you bring home... Oh my' },
+  //   { start: 48559, end: 51800, text: 'God. FBI. Any kind of booze you might want?' },
+  //   { start: 51800, end: 55719, text: 'No, the bureau forbids us from drinking.' },
+  //   { start: 55719, end: 58719, text: 'Duh.' },
+  //   { start: 58920, end: 62680, text: 'Me, I\'m doing 500, I\'m out of control, but' },
+  //   { start: 62680, end: 64959, text: 'there\'s nowhere to go, and there\'s no way' },
+  //   { start: 64959, end: 67640, text: 'to slow. If I knew what I knew in the P, I' },
+  //   { start: 67640, end: 70400, text: 'would have...' },
+  //   { start: 70400, end: 72640, text: 'How does this actually work? There\'s a' },
+  //   { start: 72640, end: 74360, text: 'big money sign. They get launched at the' },
+  //   { start: 74360, end: 76320, text: 'time they stick. This is their gift, okay?' },
+  //   { start: 76320, end: 78520, text: 'They\'re built to be thrown like a lawn' },
+  //   { start: 78520, end: 80439, text: 'dart.' },
+  //   { start: 80439, end: 84000, text: 'Stop. Safety first. Safety is, safety is' },
+  //   { start: 84000, end: 85759, text: 'first. We don\'t want to get a bad' },
+  //   { start: 85759, end: 88600, text: 'reputation. And I think I\'m possessed.' },
+  //   { start: 88600, end: 91200, text: 'I keep it like the' },
+  //   { start: 91200, end: 94360, text: 'Romans. Where the CH, baby? We live in the' },
+  //   { start: 94360, end: 99240, text: 'moment. Been a...' },
+  //   { start: 101640, end: 104079, text: 'Know...' },
+  //   { start: 104079, end: 105580, text: 'Mmm.' },
+  //   { start: 105580, end: 108670, text: '[Music]' },
+  //   { start: 108920, end: 114040, text: 'Mhm. Come on.' },
+  //   { start: 114640, end: 119279, text: '[Music]' }
+  // ];
   const updateDUration = async () => {
     try {
       let token = await AsyncStorage.getItem("isloggedIn")
@@ -140,9 +142,9 @@ const ModernVideoPlayer = () => {
 
 
 
-  const currentSubtitle = subtitles.find(
-    (sub) => currentTime >= sub.start && currentTime <= sub.end
-  )?.text;
+  // const currentSubtitle = subtitles.find(
+  //   (sub) => currentTime >= sub.start && currentTime <= sub.end
+  // )?.text;
 
   // Toggle play/pause
   const togglePlayPause = async () => {
@@ -197,6 +199,33 @@ const ModernVideoPlayer = () => {
 
   return (
     <View style={styles.container}>
+      {showAd && <View style={{
+        flex: 1,
+        position: 'absolute',
+        zIndex: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(20,20,20,0.4)"
+      }}>
+        <BlurView intensity={50} tint='dark' style={StyleSheet.absoluteFill} />
+        <View style={{ width: "60%", height: 300, backgroundColor: "rgba(100,100,100,1)", position: 'relative' }}>
+          <TouchableOpacity onPress={() => setShowAd(false)} style={{ position: 'absolute', top: 5, right: 10 }}>
+            <Text style={{ color: "white" }}>X</Text>
+          </TouchableOpacity>
+          <Video
+            source={require("../../assets/sample-ad-1.mp4")}
+            resizeMode="contain"
+            isLooping
+            volume={volume}
+            useNativeControls={true}
+            style={{ width:"80%", heigth: 200 }}
+          >
+
+          </Video>
+        </View>
+      </View>}
       <Video
         ref={videoRef}
         source={{ uri: videoUrl }} // Remote video URL
@@ -277,6 +306,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#000',
+    position: "relative"
   },
   video: {
     width: '100%',
