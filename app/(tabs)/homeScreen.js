@@ -1,11 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, ScrollView, StyleSheet, Text, Switch, Image, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import BASE_URL from "../../config"
 
 const HomeScreen = () => {
   const router = useRouter();
   const [isEnabled, setIsEnabled] = useState(false);
+  const [adsWatched, setAdsWatched] = useState(0);
+  const [withdrawl, setWithdrawl] = useState(0);
   const toggleSwitch = () => setIsEnabled((prev) => !prev);
+
+  const fetchUserDetails = async () => {
+
+    let token = await AsyncStorage.getItem("isloggedIn");
+    let req = await fetch(`${BASE_URL}/api/user/getData?token=${token}`);
+    let res = await req.json();
+
+    if (res.ok) {
+      await AsyncStorage.setItem("user_email", res.email);
+      await AsyncStorage.setItem("user_phone", res.phone);
+      setAdsWatched((res.adsWatched * 0.1).toFixed(2));
+      setWithdrawl(res.withdrawl);
+    }
+  }
+
+  useEffect(() => {
+    fetchUserDetails();
+  }, [])
+
 
   return (
     <View style={styles.container}>
@@ -29,7 +52,7 @@ const HomeScreen = () => {
             <Text style={styles.myKuber}>Kuber Apps</Text>
           </View>
           <TouchableOpacity onPress={() => router.push('/ottScreen')}>
-          <Image source={require("../../assets/Ott-logo.png")} style={{ height: 80, width: 80, borderRadius: 10, marginTop: 10, marginLeft: 10, marginBottom: 10 }}  />
+            <Image source={require("../../assets/Ott-logo.png")} style={{ height: 80, width: 80, borderRadius: 10, marginTop: 10, marginLeft: 10, marginBottom: 10 }} />
           </TouchableOpacity>
         </View>
 
@@ -40,36 +63,36 @@ const HomeScreen = () => {
           <View style={{ flexDirection: "row", justifyContent: "space-between", marginLeft: 10, marginRight: 10 }}>
             <View style={styles.walletCard}>
               <Text style={[styles.walletText, { paddingTop: 20, paddingLeft: 20, letterSpacing: 2 }]}>Total Earning</Text>
-              <Text style={[styles.walletText, { paddingLeft: 20, color: "#00D600", fontSize: 45, fontFamily: "Poppins-Regular" }]}>₹500</Text>
+              <Text style={[styles.walletText, { paddingLeft: 20, color: "#00D600", fontSize: 45, fontFamily: "Poppins-Regular" }]}>{`₹${adsWatched}`}</Text>
             </View>
             <View style={styles.walletCard}>
               <Text style={[styles.walletText, { paddingTop: 20, paddingLeft: 20, letterSpacing: 2 }]}>Total Withdrawal</Text>
-              <Text style={[styles.walletText, { paddingLeft: 20, color: "#D62000", fontSize: 45, fontFamily: "Poppins-Regular" }]}>₹500</Text>
+              <Text style={[styles.walletText, { paddingLeft: 20, color: "#D62000", fontSize: 45, fontFamily: "Poppins-Regular" }]}>{`₹${withdrawl}`}</Text>
             </View>
             <View style={styles.walletCard}>
               <Text style={[styles.walletText, { paddingTop: 20, paddingLeft: 20, letterSpacing: 2 }]}>Wallet Savings</Text>
-              <Text style={[styles.walletText, { paddingLeft: 20, color: "#00D600", fontSize: 45, fontFamily: "Poppins-Regular" }]}>₹500</Text>
+              <Text style={[styles.walletText, { paddingLeft: 20, color: "#00D600", fontSize: 45, fontFamily: "Poppins-Regular" }]}>{`₹${adsWatched - withdrawl}`}</Text>
             </View>
           </View>
         </View>
 
 
-        <View style={[styles.displayFlexcolumn, {paddingTop: 20, paddingBottom: 30,}]}>
+        <View style={[styles.displayFlexcolumn, { paddingTop: 20, paddingBottom: 30, }]}>
           <View style={{ padding: 10 }}>
             <Text style={styles.myKuber}>Settings</Text>
           </View>
           <View style={{ flexDirection: "row", justifyContent: "space-between", marginLeft: 10, marginRight: 10 }}>
             <TouchableOpacity onPress={() => router.push('./accountSettingScreen')}>
-            <View style={[styles.walletCard, {justifyContent: "center", alignItems: "center"}]}>
-              <Image source={require("../../assets/profile-icon.png")} style={{ height: 50, width: 50 }} />
-              <Text style={[styles.walletText, { paddingTop: 20, letterSpacing: 2 }]}>Account Setting</Text>
-            </View>
+              <View style={[styles.walletCard, { justifyContent: "center", alignItems: "center" }]}>
+                <Image source={require("../../assets/profile-icon.png")} style={{ height: 50, width: 50 }} />
+                <Text style={[styles.walletText, { paddingTop: 20, letterSpacing: 2 }]}>Account Setting</Text>
+              </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => router.push('/walletSettingScreen')}>
-            <View style={[styles.walletCard, {justifyContent: "center", alignItems: "center"}]}>
-              <Image source={require("../../assets/wallet.png")} style={{ height: 50, width: 50 }} />
-              <Text style={[styles.walletText, { paddingTop: 20, letterSpacing: 2 }]}>Wallet Setting</Text>
-            </View>
+              <View style={[styles.walletCard, { justifyContent: "center", alignItems: "center" }]}>
+                <Image source={require("../../assets/wallet.png")} style={{ height: 50, width: 50 }} />
+                <Text style={[styles.walletText, { paddingTop: 20, letterSpacing: 2 }]}>Wallet Setting</Text>
+              </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => router.push('/appSettingScreen')}>
               <View style={[styles.walletCard, { justifyContent: "center", alignItems: "center" }]}>

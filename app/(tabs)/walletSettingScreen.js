@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Switch, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
+import { View, Text, Switch, TouchableOpacity, StyleSheet, Dimensions, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 const { width } = Dimensions.get("window");
@@ -15,7 +15,10 @@ const WalletSettingsScreen = () => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={28} color="#FFF" />
+          <Image
+            style={{ width: 30, height: 30 }}
+            source={require("../../assets/back-icon.png")}
+          />
         </TouchableOpacity>
         <Text style={styles.title}>Wallet Settings</Text>
       </View>
@@ -31,7 +34,7 @@ const WalletSettingsScreen = () => {
         <Switch value={transactionAlerts} onValueChange={() => setTransactionAlerts(!transactionAlerts)} thumbColor="#0A84FF" />
       </View>
 
-      <TouchableOpacity style={styles.settingCard} onPress={() => router.push("PaymentMethodScreen")}>
+      <TouchableOpacity style={styles.settingCard} onPress={() => router.push("homeScreen")}>
         <Text style={styles.settingText}>Payment Methods</Text>
         <Ionicons name="chevron-forward" size={22} color="#999" />
       </TouchableOpacity>

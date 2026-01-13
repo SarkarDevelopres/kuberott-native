@@ -288,7 +288,7 @@ const ModernVideoPlayer = () => {
                 width: 40,
                 height: 40
               }}
-              source={require("../../assets/play-icon.webp")}
+              source={require("../../assets/play-icon-1.webp")}
             />
           }
         </TouchableOpacity>
